@@ -1,5 +1,5 @@
 import React from 'react'
-import SidebarRow from './Sidebarrow';
+import SidebarRow from './SidebarRow';
 import {
 
     BellIcon,

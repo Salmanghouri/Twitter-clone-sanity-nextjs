@@ -10,7 +10,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-    const data: TweetBody = JSON.parse(req.body);
+    const data: TweetBody = JSON.parse(req.body)
 //2.54
     const mutations = {
         mutations: [
@@ -21,14 +21,14 @@ export default async function handler(
                     username: data.username,
                     blockTweet: false,
                     profileImg: data.profileImg,
-                    Image: data.image,
+                    image: data.image,
 
-                }
-            }
-        ]
+                },
+            },
+        ],
     }
 
-    const apiEndpoint = `http://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.api.sanity.io/v2021-06-07/data/mutate/${process.env.NEXT_PUBLIC_SANITY_DATASET}`
+    const apiEndpoint = `https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.api.sanity.io/v2021-06-07/data/mutate/${process.env.NEXT_PUBLIC_SANITY_DATASET}`
     const result = await fetch(apiEndpoint, {
         headers:{
             'content-type': 'application/json',
@@ -38,6 +38,10 @@ export default async function handler(
         method: 'POST'
     })
 
-    const json = await result.json();
+
+
+    const json = await result.json()
+    console.log(json)
+  
   res.status(200).json({ message: 'Added!' })
 }

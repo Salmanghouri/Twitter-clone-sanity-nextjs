@@ -23,7 +23,7 @@ function TweetBox({ setTweets }: Props) {
     const imageInputRef = useRef<HTMLInputElement>(null)
 
     const { data: session } = useSession()
-    const [imageUrlBoxIsOpen, SetimageUrlBoxIsOpen] = useState<boolean>(false)
+    const [imageUrlBoxIsOpen, setImageUrlBoxIsOpen] = useState<boolean>(false)
 
     const addImageToTweet = (e: React.MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         e.preventDefault();
@@ -32,14 +32,14 @@ function TweetBox({ setTweets }: Props) {
 
         setImage(imageInputRef.current.value)
         imageInputRef.current.value = '';
-        SetimageUrlBoxIsOpen(false);
+        setImageUrlBoxIsOpen(false);
     }
 
     const postTweet = async () => {
         const tweetInfo: TweetBody = {
             text: input,
             username: session?.user?.name || 'Unknown User',
-            profileImg: session?.user?.image || './avatar.jpg"',
+            profileImg: session?.user?.image || './avatar.jpg',
             image: image,
         }
 
@@ -48,14 +48,15 @@ function TweetBox({ setTweets }: Props) {
             method: 'POST',
         })
 
-        const json = await result.json();
-
+        const json = await result.json()
+    
         const newTweets = await fetchTweets();
         setTweets(newTweets)
 
         toast('Tweet Posted', {
             icon: '🚀'
         })
+        
         return json
 
 
@@ -63,14 +64,14 @@ function TweetBox({ setTweets }: Props) {
     //3.04
 
 
-    const handleSubmit = (e: MouseEvent<HTMLBRElement, globalThis.MouseEvent>) => {
+    const handleSubmit = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         e.preventDefault();
 
-        postTweet();
+        postTweet()
 
         setInput('')
         setImage('')
-        SetimageUrlBoxIsOpen(false)
+        setImageUrlBoxIsOpen(false)
     }
 
     return (
@@ -82,7 +83,7 @@ function TweetBox({ setTweets }: Props) {
                     <input value={input} onChange={e => setInput(e.target.value)} type="text" placeholder="What is Happining? " className="h-24 w-full text-xl outline-none placeholder:text-xl" />
                     <div className="flex items-center">
                         <div className="flex flex-1 space-x-2 text-twitter">
-                            <PhotographIcon onClick={() => SetimageUrlBoxIsOpen(!imageUrlBoxIsOpen)} className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150" />
+                            <PhotographIcon onClick={() => setImageUrlBoxIsOpen(!imageUrlBoxIsOpen)} className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150" />
                             <SearchCircleIcon className="h-5 w-5" />
                             <EmojiHappyIcon className="h-5 w-5" />
                             <CalendarIcon className="h-5 w-5" />
